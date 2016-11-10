@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcchr.c                                       :+:      :+:    :+:   */
+/*   ft_replacechar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/04 22:35:12 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/10 00:38:28 by kbunel           ###   ########.fr       */
+/*   Created: 2016/11/10 00:24:08 by kbunel            #+#    #+#             */
+/*   Updated: 2016/11/10 00:34:39 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-int		ft_strcchr(const char *str, char c)
+void		ft_replacechar(char *str, char search, char replace)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	while (str[i] != '\0')
-		if (str[i++] == c)
-			j++;
-	return (j);
+	{
+		if (str[i] == search)
+			str[i] = replace;
+		i++;
+	}
 }

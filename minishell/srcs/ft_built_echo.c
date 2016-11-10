@@ -6,13 +6,13 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 13:53:25 by kbunel            #+#    #+#             */
-/*   Updated: 2016/10/04 23:45:21 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/10 01:32:51 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int		check_quote(char **args, char *str)
+static int			check_quote(char **args, char *str)
 {
 	int		i;
 	int		q;
@@ -21,7 +21,7 @@ static int		check_quote(char **args, char *str)
 	i = 0;
 	if (args != NULL)
 	{
-		while(args[i])
+		while (args[i])
 			if ((ft_strcchr(args[i++], '\'') & 1) != 0)
 				q++;
 	}
@@ -33,7 +33,7 @@ static int		check_quote(char **args, char *str)
 		return (0);
 }
 
-static t_quote	*get_new_text(char *str)
+static t_quote		*get_new_text(char *str)
 {
 	t_quote		*new_text;
 
@@ -43,7 +43,7 @@ static t_quote	*get_new_text(char *str)
 	return (new_text);
 }
 
-static t_quote		*get_quote()
+static t_quote		*get_quote(void)
 {
 	char		*line;
 	int			i;
@@ -67,24 +67,11 @@ static t_quote		*get_quote()
 	return (first);
 }
 
-int				b_echo(char **args)
+static void			write_quote(t_quote *text)
 {
-	int			i;
-	t_quote		*text;
 	t_quote		*g_text;
 
-	i = 1;
-	text = NULL;
 	g_text = NULL;
-	if (check_quote(args, NULL) == 1)
-		text = get_quote();
-	while (args[i] != NULL)
-	{
-		ft_putstr(args[i]);
-		if (args[i++ + 1] != NULL)
-			ft_putchar(' ');
-	}
-	i = 0;
 	if (text != NULL)
 		ft_putchar('\n');
 	while (text != NULL)
@@ -97,6 +84,25 @@ int				b_echo(char **args)
 		ft_memdel((void **)&g_text->str);
 		ft_memdel((void **)&g_text);
 	}
+}
+
+int					b_echo(char **args)
+{
+	int			i;
+	t_quote		*text;
+
+	i = 1;
+	text = NULL;
+	if (check_quote(args, NULL) == 1)
+		text = get_quote();
+	while (args[i] != NULL)
+	{
+		ft_putstr(args[i]);
+		if (args[i++ + 1] != NULL)
+			ft_putchar(' ');
+	}
+	i = 0;
+	write_quote(text);
 	ft_putchar('\n');
 	return (1);
 }

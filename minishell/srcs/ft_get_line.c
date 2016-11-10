@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/06/30 13:16:41 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/10 00:36:34 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void			ft_get_line(char **env, t_ms *ms)
 		while (ms->cmd[i])
 		{
 			j = 0;
+			ft_replacechar(ms->cmd[i], '\t', ' ');
 			args = ft_strsplit(ms->cmd[i], ' ');
 			env_used = select_env(&args, env);
 			if (ft_strcmp(args[0], "exit") == 0)
