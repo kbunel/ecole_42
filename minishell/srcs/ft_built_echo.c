@@ -64,6 +64,7 @@ static t_quote		*get_quote(void)
 		text = text->next;
 		free(line);
 	}
+	text->str[ft_strlen(text->str) - 1] = '\0';
 	return (first);
 }
 
@@ -86,7 +87,7 @@ static void			write_quote(t_quote *text)
 	}
 }
 
-int					b_echo(char **args)
+int							b_echo(char **args)
 {
 	int			i;
 	t_quote		*text;
@@ -97,7 +98,9 @@ int					b_echo(char **args)
 		text = get_quote();
 	while (args[i] != NULL)
 	{
-		ft_putstr(args[i]);
+		if (args[i][ft_strlen(args[i]) - 1] == '\'')
+			args[i][ft_strlen(args[i]) - 1] = '\0';
+		ft_putstr(args[i] + (args[i][0] == '\'' ? 1 : 0));
 		if (args[i++ + 1] != NULL)
 			ft_putchar(' ');
 	}
