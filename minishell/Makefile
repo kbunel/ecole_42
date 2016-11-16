@@ -6,7 +6,7 @@
 #    By: kbunel <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/30 15:24:53 by kbunel            #+#    #+#              #
-#    Updated: 2016/09/26 22:18:25 by kbunel           ###   ########.fr        #
+#    Updated: 2016/11/16 21:04:29 by kbunel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRC_NAME = main.c ft_get_cmd.c ft_get_builtin.c ft_init_env.c ft_init_ms.c \
 		   ft_free_ms.c ft_error_ms.c ft_get_line.c ft_built_echo.c \
-		   ft_setenv.c ft_built_env.c ft_parse_line.c ft_get_commands.c \
+		   ft_setenv.c ft_built_env.c ft_parse_line.c \
 		   ft_built_cd.c ft_get_shell_lvl.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)

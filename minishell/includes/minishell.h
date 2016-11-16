@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:48:14 by kbunel            #+#    #+#             */
-/*   Updated: 2016/10/04 23:16:25 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/16 23:09:37 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ enum
 {
 	CMDNOTFOUND,
 	SETENV,
-	UNSETENV
+	UNSETENV,
+	NO_OLDPWD,
+	NO_HOME
 };
 
 typedef struct			s_ms
@@ -50,12 +52,9 @@ void					ft_init_term(void);
 void					ft_reinit_term(void);
 void					ft_setenv(char **env, char *name, char *value);
 int						b_setenv(char **env, char **args, int set_type);
-void					b_unsetenv(char **env, char *name);
-int						b_get_env(char **env, char **args);
 int						b_echo(char **args);
 char					*get_cmds(char *line);
 void					get_commands(char *cmd, t_ms *ms);
-char					**ft_get_args(char	*cmd);
 int						b_cd(char **env, char *file);
 void					get_shlvl(char **env);
 

@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 22:10:08 by kbunel            #+#    #+#             */
-/*   Updated: 2016/10/04 23:52:30 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/16 21:08:00 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int			inc_shlvl(char **env, int i, int j)
 	tmp = ft_itoa(lvl);
 	env[i] = ft_strjoin("SHLVL=", tmp);
 	ft_memdel((void **)&tmp);
-	return(1);
+	return (1);
 }
 
 static int			get_shlvl_from_env(char **env, int i, int j, int g)
 {
 	char	*e_title;
-	
+
 	e_title = ft_strsub(env[i], 0, j);
 	if (ft_strcmp(e_title, "SHLVL") == 0)
 		g = inc_shlvl(env, i, j);
@@ -38,7 +38,7 @@ static int			get_shlvl_from_env(char **env, int i, int j, int g)
 	return (g);
 }
 
-void			get_shlvl(char **env)
+void				get_shlvl(char **env)
 {
 	int		i;
 	int		j;
