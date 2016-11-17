@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 13:53:25 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/10 01:32:51 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/17 22:03:04 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void			write_quote(t_quote *text)
 	}
 }
 
-int							b_echo(char **args)
+int					b_echo(char **args)
 {
 	int			i;
 	t_quote		*text;

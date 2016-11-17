@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 12:05:22 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/16 23:33:20 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/17 22:34:53 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ static void		set_path(char **env, char *u_file)
 	ft_memdel((void **)&path);
 }
 
+static void		send_file(int error, char *u_file, char **env)
+{
+	if (error == NO_OLDPWD)
+		ft_printf("cd: NO OLDPWD SET\n");
+	else if (error == NO_HOME)
+		ft_printf("cd: NO HOME SET\n");
+	else if (u_file == NULL)
+		b_cd(env, "/");
+	else if (access(u_file, X_OK) == 0)
+		set_path(env, u_file);
+	else
+		ft_printf("cd: permission denied: %s\n", u_file);
+}
+
 int				b_cd(char **env, char *file)
 {
 	char	*u_file;
@@ -63,16 +77,7 @@ int				b_cd(char **env, char *file)
 	}
 	else
 		u_file = ft_strdup(file);
-	if (error == NO_OLDPWD)
-		ft_printf("cd: NO OLDPWD SET\n");
-	else if (error == NO_HOME)
-		ft_printf("cd: NO HOME SET\n");
-	else if (u_file == NULL)
-		b_cd(env, "/");
-	else if (access(u_file, X_OK) == 0)
-		set_path(env, u_file);
-	else
-		ft_printf("cd: permission denied: %s\n", u_file);
+	send_file(error, u_file, env);
 	ft_memdel((void **)&u_file);
 	return (1);
 }

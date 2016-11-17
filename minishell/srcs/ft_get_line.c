@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/10 00:36:34 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/17 22:30:08 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,28 @@ static void		get_cmd(char **args, char **env, t_ms *ms)
 	}
 }
 
+static char		**get_arg(char ***args, char **env, int i, int j)
+{
+	int		e;
+
+	e = (ft_strcmp(args[0][1], "-i") == 0) ? 1 : 0;
+	while (args[0][i] != NULL)
+	{
+		ft_memdel((void **)&args[0][i]);
+		if (i + 2 < j)
+			args[0][i] = ft_strdup(args[0][i + 2]);
+		i++;
+	}
+	if (e == 1)
+		return (NULL);
+	else
+		return (env);
+}
+
 static char		**select_env(char ***args, char **env)
 {
 	int		i;
 	int		j;
-	int		e;
 
 	i = 0;
 	j = 0;
@@ -44,43 +61,43 @@ static char		**select_env(char ***args, char **env)
 			&& args[0][1] != NULL)
 	{
 		if (args[0][1] != NULL && args[0][1][0] == '-')
+			return (get_arg(args, env, i, j));
+		while (args[0][i] != NULL)
 		{
-			e = (ft_strcmp(args[0][1], "-i") == 0) ? 1 : 0;
-			while (args[0][i] != NULL)
-			{
-				ft_memdel((void **)&args[0][i]);
-				if (i + 2 < j)
-					args[0][i] = ft_strdup(args[0][i + 2]);
-				i++;
-			}
-			if (e == 1)
-				return (NULL);
-			else
-				return (env);
-		}
-		else
-		{
-			while (args[0][i] != NULL)
-			{
-				ft_memdel((void **)&args[0][i]);
-				if (i + 1 < j)
-					args[0][i] = ft_strdup(args[0][i + 1]);
-				i++;
-			}
-			return (env);
+			ft_memdel((void **)&args[0][i]);
+			if (i + 1 < j)
+				args[0][i] = ft_strdup(args[0][i + 1]);
+			i++;
 		}
 	}
+	return (env);
+}
+
+static int		execute(t_ms *ms, char **env, int i)
+{
+	int		j;
+	char	**args;
+	char	**env_used;
+
+	j = 0;
+	ft_replacechar(ms->cmd[i], '\t', ' ');
+	args = ft_strsplit(ms->cmd[i], ' ');
+	env_used = select_env(&args, env);
+	if (ft_strcmp(args[0], "exit") == 0)
+		exit(EXIT_SUCCESS);
 	else
-		return (env);
+		get_cmd(args, env_used, ms);
+	while (args[j])
+		ft_memdel((void **)&args[j++]);
+	ft_memdel((void **)&args);
+	ft_memdel((void **)&ms->cmd[i++]);
+	return (i);
 }
 
 void			ft_get_line(char **env, t_ms *ms)
 {
 	char		*line;
-	char 		**args;
 	int			i;
-	int			j;
-	char		**env_used;
 
 	ft_putstr(ms->prompt);
 	while (get_next_line(1, &line))
@@ -88,20 +105,7 @@ void			ft_get_line(char **env, t_ms *ms)
 		i = 0;
 		ms->cmd = ft_strsplit(line, ';');
 		while (ms->cmd[i])
-		{
-			j = 0;
-			ft_replacechar(ms->cmd[i], '\t', ' ');
-			args = ft_strsplit(ms->cmd[i], ' ');
-			env_used = select_env(&args, env);
-			if (ft_strcmp(args[0], "exit") == 0)
-				exit(EXIT_SUCCESS);
-			else
-				get_cmd(args, env_used, ms);
-			while (args[j])
-				ft_memdel((void **)&args[j++]);
-			ft_memdel((void **)&args);
-			ft_memdel((void **)&ms->cmd[i++]);
-		}
+			i = execute(ms, env, i);
 		ft_memdel((void **)&ms->cmd);
 		ms->cmd = NULL;
 		ft_printf(ms->prompt);

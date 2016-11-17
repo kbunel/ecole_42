@@ -6,13 +6,13 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 13:46:34 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/16 21:23:00 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/17 22:17:43 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	unset_env(char **env, int i)
+static void		unset_env(char **env, int i)
 {
 	int		j;
 
@@ -52,7 +52,7 @@ static void		b_unsetenv(char **env, char *name)
 	}
 }
 
-static void			set_or_unset_env(char **env, char *name, char *value, int set_type)
+static void		select_set(char **env, char *name, char *value, int set_type)
 {
 	if (set_type == SETENV)
 		ft_setenv(env, name, value);
@@ -62,7 +62,7 @@ static void			set_or_unset_env(char **env, char *name, char *value, int set_type
 	ft_memdel((void **)&value);
 }
 
-int			b_setenv(char **env, char **args, int set_type)
+int				b_setenv(char **env, char **args, int set_type)
 {
 	int		i;
 	int		j;
@@ -85,7 +85,7 @@ int			b_setenv(char **env, char **args, int set_type)
 			name = ft_strdup(args[i]);
 			value = ft_strdup("''");
 		}
-		set_or_unset_env(env, name, value, set_type);
+		select_set(env, name, value, set_type);
 		i++;
 	}
 	return (1);
