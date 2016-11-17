@@ -6,18 +6,18 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:48:14 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/16 23:09:37 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/17 22:43:12 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LS_H
-# define FT_LS_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "../libft/includes/libft.h"
 # include <termios.h>
 # include <term.h>
 
-enum 
+enum
 {
 	CMDNOTFOUND,
 	SETENV,
