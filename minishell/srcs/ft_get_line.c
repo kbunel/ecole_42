@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/17 22:30:08 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 21:09:30 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 static void		get_cmd(char **args, char **env, t_ms *ms)
 {
 	int			status;
-	pid_t		pid;
+	pid_t		sid;
 
-	if (ft_strchr(args[0], '/') != NULL || ft_get_builtin(args, env) == 0)
+	if (args[0] && (ft_strchr(args[0], '/') != NULL
+				|| ft_get_builtin(args, env) == 0))
 	{
-		pid = fork();
-		if (pid == 0)
+		sid = fork();
+		if (sid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
 			ft_get_cmd(args, env, ms);
 			exit(1);
+			signal(SIGINT, SIG_IGN);
 		}
 		else
 			wait(&status);
@@ -83,7 +86,7 @@ static int		execute(t_ms *ms, char **env, int i)
 	ft_replacechar(ms->cmd[i], '\t', ' ');
 	args = ft_strsplit(ms->cmd[i], ' ');
 	env_used = select_env(&args, env);
-	if (ft_strcmp(args[0], "exit") == 0)
+	if (args[0] && ft_strcmp(args[0], "exit") == 0)
 		exit(EXIT_SUCCESS);
 	else
 		get_cmd(args, env_used, ms);

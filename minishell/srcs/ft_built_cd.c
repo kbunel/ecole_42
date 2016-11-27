@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/30 12:05:22 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/17 22:34:53 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 19:06:57 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ static char		*insert_home(char **env, char *file)
 static void		set_path(char **env, char *u_file)
 {
 	char	*path;
+	char	*env_name;
 
 	path = NULL;
-	ft_setenv(env, "OLDPWD", ft_getenv(env, "PWD"));
+	env_name = ft_getenv(env, "PWD");
+	ft_setenv(env, "OLDPWD", env_name);
+	ft_memdel((void **)&env_name);
 	ft_memdel((void **)&path);
 	chdir(u_file);
 	free(path);

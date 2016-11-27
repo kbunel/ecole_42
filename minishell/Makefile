@@ -13,9 +13,9 @@
 NAME = minishell
 
 SRC_NAME = main.c ft_get_cmd.c ft_get_builtin.c ft_init_env.c ft_init_ms.c \
-		   ft_free_ms.c ft_error_ms.c ft_get_line.c ft_built_echo.c \
-		   ft_setenv.c ft_built_env.c ft_parse_line.c ft_built_cd.c \
-		   ft_get_shell_lvl.c
+	ft_free_ms.c ft_error_ms.c ft_get_line.c ft_built_echo.c \
+	ft_setenv.c ft_built_env.c ft_parse_line.c ft_built_cd.c \
+	ft_get_shell_lvl.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
@@ -44,7 +44,7 @@ LDFLAGS = -L libft/
 LDLIBS = -lft
 
 .PHONY: all, clean, fclean, re
-	
+
 all: $(NAME)
 
 $(NAME): $(OBJ) libft/libft.a
@@ -55,7 +55,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	@echo "  Compiling \033[36m$@\033[0m"
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
-	
+
 clean:
 	@rm -f $(OBJ)
 	@rmdir $(OBJ_PATH) 2> /dev/null || true

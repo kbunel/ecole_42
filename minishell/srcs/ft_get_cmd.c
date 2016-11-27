@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 16:07:57 by kbunel            #+#    #+#             */
-/*   Updated: 2016/06/28 20:22:13 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 21:03:33 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		ft_get_cmd(char **args, char **env, t_ms *ms)
 	int		i;
 	int		e;
 	char	*cmd;
+	char	*cmdv;
 
 	i = 0;
 	e = -1;
@@ -31,9 +32,10 @@ void		ft_get_cmd(char **args, char **env, t_ms *ms)
 	if (e == -1)
 	{
 		cmd = ft_strjoin(ms->pwd, "/");
-		cmd = ft_strjoin(cmd, args[0]);
-		e = execve(cmd, args, env);
+		cmdv = ft_strjoin(cmd, args[0]);
 		ft_memdel((void **)&cmd);
+		e = execve(cmdv, args, env);
+		ft_memdel((void **)&cmdv);
 		if (e == -1)
 			ft_error_ms(CMDNOTFOUND, args[0]);
 	}

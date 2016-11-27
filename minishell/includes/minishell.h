@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:48:14 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/17 22:43:12 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 17:35:28 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../libft/includes/libft.h"
 # include <termios.h>
 # include <term.h>
+# include <signal.h>
 
 enum
 {
