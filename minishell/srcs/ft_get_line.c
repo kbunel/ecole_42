@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 23:53:06 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/28 00:19:04 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int		execute(t_ms *ms, char **env, int i)
 		while (args[j])
 			ft_memdel((void **)&args[j++]);
 		ft_memdel((void **)&args);
-		return(1);
+		return (1);
 	}
 	else
 		get_cmd(args, env_used, ms);
@@ -120,7 +120,8 @@ void			ft_get_line(char **env, t_ms *ms)
 		}
 		ft_memdel((void **)&ms->cmd);
 		ms->cmd = NULL;
-		ft_printf(ms->prompt);
+		if (exit == 0)
+			ft_printf(ms->prompt);
 		free(line);
 	}
 }
