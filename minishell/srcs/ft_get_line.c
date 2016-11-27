@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 21:09:30 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 23:53:06 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,28 +87,37 @@ static int		execute(t_ms *ms, char **env, int i)
 	args = ft_strsplit(ms->cmd[i], ' ');
 	env_used = select_env(&args, env);
 	if (args[0] && ft_strcmp(args[0], "exit") == 0)
-		exit(EXIT_SUCCESS);
+	{
+		while (args[j])
+			ft_memdel((void **)&args[j++]);
+		ft_memdel((void **)&args);
+		return(1);
+	}
 	else
 		get_cmd(args, env_used, ms);
 	while (args[j])
 		ft_memdel((void **)&args[j++]);
 	ft_memdel((void **)&args);
-	ft_memdel((void **)&ms->cmd[i++]);
-	return (i);
+	return (0);
 }
 
 void			ft_get_line(char **env, t_ms *ms)
 {
 	char		*line;
 	int			i;
+	int			exit;
 
 	ft_putstr(ms->prompt);
-	while (get_next_line(1, &line))
+	exit = 0;
+	while (exit == 0 && get_next_line(1, &line))
 	{
 		i = 0;
 		ms->cmd = ft_strsplit(line, ';');
-		while (ms->cmd[i])
-			i = execute(ms, env, i);
+		while (exit == 0 && ms->cmd[i])
+		{
+			exit = execute(ms, env, i);
+			ft_memdel((void **)&ms->cmd[i++]);
+		}
 		ft_memdel((void **)&ms->cmd);
 		ms->cmd = NULL;
 		ft_printf(ms->prompt);

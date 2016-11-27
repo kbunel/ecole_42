@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:36:09 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 21:04:14 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 23:20:21 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int		set_env(char **env, int i, int j, char *value)
 	tmp = ft_strsub(env[i], 0, j + 1);
 	if (value == NULL)
 		value = ft_strdup("");
+	ft_memdel((void **)&env[i]);
 	env[i] = ft_strjoin(tmp, value);
 	ft_memdel((void **)&tmp);
 	return (1);

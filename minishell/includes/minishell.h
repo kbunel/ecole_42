@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:48:14 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 17:35:28 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/11/27 23:15:07 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int						b_echo(char **args);
 char					*get_cmds(char *line);
 void					get_commands(char *cmd, t_ms *ms);
 int						b_cd(char **env, char *file);
-void					get_shlvl(char **env);
+void					ft_get_shlvl(char **env);
+char					**ft_get_env(char **env);
+void					ft_free_env(char **env);
 
 #endif
