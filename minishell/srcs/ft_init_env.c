@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 17:00:41 by kbunel            #+#    #+#             */
-/*   Updated: 2016/06/30 12:31:25 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/12/13 23:15:29 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void		check_env(t_ms *ms, char **env)
 		ft_setenv(env, "PWD", path);
 		ft_memdel((void **)&path);
 	}
+	if (ms->path == NULL)
+		get_path("PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin", ms);
 }
 
 void			ft_init_env(char **env, t_ms *ms)

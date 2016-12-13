@@ -6,17 +6,19 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/28 00:19:04 by kbunel           ###   ########.fr       */
+/*   Updated: 2016/12/13 23:24:50 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void		get_cmd(char **args, char **env, t_ms *ms)
+static int		get_cmd(char **args, char **env, t_ms *ms)
 {
 	int			status;
 	pid_t		sid;
+	int			exit;
 
+	exit = 0;
 	if (args[0] && (ft_strchr(args[0], '/') != NULL
 				|| ft_get_builtin(args, env) == 0))
 	{
@@ -25,12 +27,12 @@ static void		get_cmd(char **args, char **env, t_ms *ms)
 		{
 			signal(SIGINT, SIG_DFL);
 			ft_get_cmd(args, env, ms);
-			exit(1);
-			signal(SIGINT, SIG_IGN);
+			exit = 1;
 		}
 		else
 			wait(&status);
 	}
+	return (exit);
 }
 
 static char		**get_arg(char ***args, char **env, int i, int j)
@@ -81,24 +83,21 @@ static int		execute(t_ms *ms, char **env, int i)
 	int		j;
 	char	**args;
 	char	**env_used;
+	int		exit;
 
 	j = 0;
+	exit = 0;
 	ft_replacechar(ms->cmd[i], '\t', ' ');
 	args = ft_strsplit(ms->cmd[i], ' ');
 	env_used = select_env(&args, env);
 	if (args[0] && ft_strcmp(args[0], "exit") == 0)
-	{
-		while (args[j])
-			ft_memdel((void **)&args[j++]);
-		ft_memdel((void **)&args);
-		return (1);
-	}
+		exit = 1;
 	else
-		get_cmd(args, env_used, ms);
+		exit = get_cmd(args, env_used, ms);
 	while (args[j])
 		ft_memdel((void **)&args[j++]);
 	ft_memdel((void **)&args);
-	return (0);
+	return (exit);
 }
 
 void			ft_get_line(char **env, t_ms *ms)
