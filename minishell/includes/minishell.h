@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/28 16:48:14 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 23:15:07 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/10 20:28:55 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int						b_cd(char **env, char *file);
 void					ft_get_shlvl(char **env);
 char					**ft_get_env(char **env);
 void					ft_free_env(char **env);
+int						check_if_quote(char **args, char *str, char quote);
+char					ft_kind_quote(char **args);
 
 #endif

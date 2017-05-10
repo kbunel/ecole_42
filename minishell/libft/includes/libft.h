@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 11:41:38 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/10 00:27:01 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/10 19:09:05 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,6 @@ int					ft_strleni(int nb);
 char				*ft_getenv(char **env, char *name);
 int					ft_strcchr(const char *str, char c);
 void				ft_replacechar(char *str, char search, char replace);
+int					ft_strcfirst(char *str, char c);
 
 #endif

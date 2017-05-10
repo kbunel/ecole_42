@@ -6,13 +6,13 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 13:53:25 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/17 22:03:04 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/10 20:28:49 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int			check_quote(char **args, char *str)
+int					check_if_quote(char **args, char *str, char quote)
 {
 	int		i;
 	int		q;
@@ -22,10 +22,10 @@ static int			check_quote(char **args, char *str)
 	if (args != NULL)
 	{
 		while (args[i])
-			if ((ft_strcchr(args[i++], '\'') & 1) != 0)
+			if ((ft_strcchr(args[i++], quote) & 1) != 0)
 				q++;
 	}
-	if (str != NULL && (ft_strcchr(str, '\'') & 1) != 0)
+	if (str != NULL && (ft_strcchr(str, quote) & 1) != 0)
 		q++;
 	if ((q & 1) != 0)
 		return (1);
@@ -43,7 +43,7 @@ static t_quote		*get_new_text(char *str)
 	return (new_text);
 }
 
-static t_quote		*get_quote(void)
+static t_quote		*get_quote(char quote)
 {
 	char		*line;
 	int			i;
@@ -56,7 +56,7 @@ static t_quote		*get_quote(void)
 	text = get_new_text(line);
 	first = text;
 	free(line);
-	while (check_quote(NULL, text->str) == 0)
+	while (check_if_quote(NULL, text->str, quote) == 0)
 	{
 		ft_putstr("quote> ");
 		get_next_line(1, &line);
@@ -91,16 +91,19 @@ int					b_echo(char **args)
 {
 	int			i;
 	t_quote		*text;
+	char		quote;
 
-	i = 1;
+	i = 0;
 	text = NULL;
-	if (check_quote(args, NULL) == 1)
-		text = get_quote();
+	quote = ft_kind_quote(args);
+	if (quote != '\0')
+		text = get_quote(quote);
+	i = 1;
 	while (args[i] != NULL)
 	{
-		if (args[i][ft_strlen(args[i]) - 1] == '\'')
+		if (args[i][ft_strlen(args[i]) - 1] == quote)
 			args[i][ft_strlen(args[i]) - 1] = '\0';
-		ft_putstr(args[i] + (args[i][0] == '\'' ? 1 : 0));
+		ft_putstr(args[i] + (quote != '\0' && args[i][0] == quote ? 1 : 0));
 		if (args[i++ + 1] != NULL)
 			ft_putchar(' ');
 	}

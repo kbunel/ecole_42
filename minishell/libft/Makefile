@@ -6,7 +6,7 @@
 #    By: kbunel <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/30 15:24:53 by kbunel            #+#    #+#              #
-#    Updated: 2016/11/10 00:27:22 by kbunel           ###   ########.fr        #
+#    Updated: 2017/05/10 19:02:49 by kbunel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ F_BASICS = ft_isalnum.c ft_isprint.c ft_lstdelone.c ft_memalloc.c ft_memcpy.c \
 			ft_strmapi.c ft_strnequ.c ft_strsplit.c ft_tolower.c \
 			ft_strisub.c ft_strjoin_free.c get_next_line.c \
 			ft_check.c ft_free_ret.c ft_dir.c ft_error.c \
-			ft_strlenint.c ft_getenv.c ft_strcchr.c ft_replacechar.c
+			ft_strlenint.c ft_getenv.c ft_strcchr.c ft_replacechar.c \
+			ft_strcfirst.c
 
 F_FT_PRINTF = ft_error_msg.c ft_itoa_printf_octal.c ft_itoa_printf_octal_j.c \
 			ft_printf.c ft_get_w_string.c ft_length.c \
