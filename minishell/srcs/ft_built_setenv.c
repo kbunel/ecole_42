@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/29 13:46:34 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/17 22:17:43 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/11 17:20:56 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ static void		unset_env(char **env, int i)
 		j++;
 	while (i + 1 < j)
 	{
+		ft_memdel((void **)&env[i]);
 		env[i] = ft_strdup(env[i + 1]);
 		i++;
 	}
-	env[i] = NULL;
+	ft_memdel((void **)&env[i]);
 }
 
 static void		b_unsetenv(char **env, char *name)

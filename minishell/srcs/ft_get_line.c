@@ -6,7 +6,7 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 20:33:07 by kbunel            #+#    #+#             */
-/*   Updated: 2016/12/13 23:24:50 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/11 21:23:05 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,69 @@ static int		get_cmd(char **args, char **env, t_ms *ms)
 	return (exit);
 }
 
-static char		**get_arg(char ***args, char **env, int i, int j)
+static void		back_in_args(char **args, int j)
 {
-	int		e;
-
-	e = (ft_strcmp(args[0][1], "-i") == 0) ? 1 : 0;
-	while (args[0][i] != NULL)
+	while (args[j] != NULL)
 	{
-		ft_memdel((void **)&args[0][i]);
-		if (i + 2 < j)
-			args[0][i] = ft_strdup(args[0][i + 2]);
-		i++;
+		ft_memdel((void **)&args[j]);
+		if (args[j + 1])
+			args[j] = ft_strdup(args[j + 1]);
+		j++;
 	}
-	if (e == 1)
-		return (NULL);
-	else
-		return (env);
 }
 
-static char		**select_env(char ***args, char **env)
+static int		set_env(char **env, char *arg)
 {
 	int		i;
-	int		j;
+	char	*name;
+	char	*value;
 
 	i = 0;
-	j = 0;
-	while (args[0][j] != NULL)
-		j++;
-	if (args[0][0] != NULL && ft_strcmp(args[0][0], "env") == 0
-			&& args[0][1] != NULL)
+	while (arg[i] != '=' && arg[i] != '\0')
+		i++;
+	name = ft_strsub(arg, 0, i);
+	value = ft_strsub(arg, i + 1, ft_strlen(arg) - i - 1);
+	ft_setenv(env, name, value);
+	ft_memdel((void **)&name);
+	ft_memdel((void **)&value);
+	return (1);
+}
+
+static char		**select_environnement(char **args, char **env)
+{
+	int		i;
+	char	**env_used;
+	int		named;
+
+	i = 0;
+	named = 0;
+	env_used = ft_get_env(env);
+	while (args[i] && ft_strcmp(args[i], "env") == 0 && args[i + 1] != NULL)
 	{
-		if (args[0][1] != NULL && args[0][1][0] == '-')
-			return (get_arg(args, env, i, j));
-		while (args[0][i] != NULL)
+		back_in_args(args, i);
+		while (args[i] && ((ft_strcmp(args[i], "-i") == 0 && named == 0) || ft_strchr(args[i], '=') != NULL))
 		{
-			ft_memdel((void **)&args[0][i]);
-			if (i + 1 < j)
-				args[0][i] = ft_strdup(args[0][i + 1]);
-			i++;
+			if (ft_strcmp(args[i], "-i") == 0 && named == 0)
+			{
+				ft_free_env(env_used);
+				env_used = NULL;
+			}
+			else if (ft_strchr(args[i], '=') != NULL)
+			{
+				if (env_used == NULL)
+				{
+					env_used = ft_memalloc(2);
+					env_used[0] = ft_strdup(args[i]);
+					env_used[1] = NULL;
+					named = 1;
+				}
+				else
+					named = set_env(env_used, args[i]);
+			}
+			back_in_args(args, i);
 		}
 	}
-	return (env);
+	return env_used;
 }
 
 static int		execute(t_ms *ms, char **env, int i)
@@ -84,19 +106,23 @@ static int		execute(t_ms *ms, char **env, int i)
 	char	**args;
 	char	**env_used;
 	int		exit;
+	int		env_selected;
 
+	
 	j = 0;
 	exit = 0;
 	ft_replacechar(ms->cmd[i], '\t', ' ');
 	args = ft_strsplit(ms->cmd[i], ' ');
-	env_used = select_env(&args, env);
+	env_selected = (args[i] && ft_strcmp(args[i], "env") == 0 && args[i + 1] != NULL) ? 1 : 0;
+	env_used = select_environnement(args, env);
 	if (args[0] && ft_strcmp(args[0], "exit") == 0)
 		exit = 1;
 	else
-		exit = get_cmd(args, env_used, ms);
-	while (args[j])
-		ft_memdel((void **)&args[j++]);
-	ft_memdel((void **)&args);
+		exit = get_cmd(args, (env_selected == 0) ? env : env_used,  ms);
+	if (args)
+		ft_free_env(args);
+	if (env_used)
+		ft_free_env(env_used);
 	return (exit);
 }
 

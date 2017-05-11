@@ -6,18 +6,35 @@
 /*   By: kbunel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/27 16:07:57 by kbunel            #+#    #+#             */
-/*   Updated: 2016/11/27 21:03:33 by kbunel           ###   ########.fr       */
+/*   Updated: 2017/05/11 17:04:12 by kbunel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		ft_get_cmd(char **args, char **env, t_ms *ms)
+static void			ft_exec_from_pwd(char **args, char **env)
+{
+	char	*pwd;
+	char	*cmd;
+	char	*cmdv;
+	int		e;
+
+	pwd = ft_getenv(env, "PWD");
+	cmd = ft_strjoin(pwd, "/");
+	cmdv = ft_strjoin(cmd, args[0]);
+	e = execve(cmdv, args, env);
+	ft_memdel((void **)&cmd);
+	ft_memdel((void **)&cmdv);
+	ft_memdel((void **)&pwd);
+	if (e == -1)
+		ft_error_ms(CMDNOTFOUND, args[0]);
+}
+
+void				ft_get_cmd(char **args, char **env, t_ms *ms)
 {
 	int		i;
 	int		e;
 	char	*cmd;
-	char	*cmdv;
 
 	i = 0;
 	e = -1;
@@ -28,15 +45,6 @@ void		ft_get_cmd(char **args, char **env, t_ms *ms)
 		ft_memdel((void **)&cmd);
 		i++;
 	}
-	i = 0;
 	if (e == -1)
-	{
-		cmd = ft_strjoin(ms->pwd, "/");
-		cmdv = ft_strjoin(cmd, args[0]);
-		ft_memdel((void **)&cmd);
-		e = execve(cmdv, args, env);
-		ft_memdel((void **)&cmdv);
-		if (e == -1)
-			ft_error_ms(CMDNOTFOUND, args[0]);
-	}
+		ft_exec_from_pwd(args, env);
 }
